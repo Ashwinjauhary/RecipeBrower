@@ -1,1 +1,13 @@
-{"version": 2,"buildCommand": "npm run vercel-build","outputDirectory": "dist/recipe-browser","routes": [{"src": "/(.*)","dest": "/index.html"}]}
+{
+  "version": 3,
+  "buildCommand": "npm run build",
+  "installCommand": "npm install",
+  "outputDirectory": "dist/recipe-browser/browser",
+  "framework": "none",
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/index.html"
+    }
+  ]
+}
