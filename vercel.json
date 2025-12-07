@@ -1,1 +1,1 @@
-{"version": 2,"buildCommand": "npm run build:prod","outputDirectory": "dist/recipe-browser","routes": [{"src": "/(.*)","dest": "/index.html"}]}
+{"version": 2,"buildCommand": "npm run vercel-build","outputDirectory": "dist/recipe-browser","routes": [{"src": "/(.*)","dest": "/index.html"}]}
