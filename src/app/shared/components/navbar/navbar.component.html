@@ -1,0 +1,88 @@
+<nav class="bg-white shadow-lg border-b border-gray-200">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex justify-between items-center h-16">
+      <!-- Logo/Brand -->
+      <div class="flex items-center">
+        <a routerLink="/" class="flex items-center space-x-3 group">
+          <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-primary-600 rounded-lg flex items-center justify-center shadow-md group-hover:shadow-lg transition-shadow">
+            <span class="text-white font-bold text-lg">AJ</span>
+          </div>
+          <div>
+            <h1 class="text-xl font-bold text-gray-900 group-hover:text-primary-600 transition-colors">AJ Verse</h1>
+            <p class="text-xs text-gray-500">Recipe Browser</p>
+          </div>
+        </a>
+      </div>
+
+      <!-- Desktop Navigation -->
+      <div class="hidden md:flex items-center space-x-8">
+        <button 
+          (click)="navigateToHome()"
+          [class]="isActiveRoute('/home') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="transition-colors duration-200">
+          Home
+        </button>
+        <button 
+          (click)="navigateToSearch()"
+          [class]="isActiveRoute('/search') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="transition-colors duration-200">
+          Search
+        </button>
+        <button 
+          (click)="navigateToFavorites()"
+          [class]="isActiveRoute('/favorites') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="flex items-center space-x-1 transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+          </svg>
+          <span>Favorites</span>
+          <span class="bg-primary-500 text-white text-xs px-2 py-1 rounded-full">
+            {{ favoriteCount$ | async }}
+          </span>
+        </button>
+      </div>
+
+      <!-- Mobile menu button -->
+      <div class="md:hidden">
+        <button 
+          (click)="toggleMenu()"
+          class="text-gray-700 hover:text-primary-600 p-2">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                  [attr.d]="isMenuOpen ? 'M6 18L18 6M6 6l12 12' : 'M4 6h16M4 12h16M4 18h16'"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Mobile Navigation -->
+    <div [class]="isMenuOpen ? 'block' : 'hidden'" class="md:hidden pb-4">
+      <div class="flex flex-col space-y-3">
+        <button 
+          (click)="navigateToHome()"
+          [class]="isActiveRoute('/home') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="text-left transition-colors duration-200">
+          Home
+        </button>
+        <button 
+          (click)="navigateToSearch()"
+          [class]="isActiveRoute('/search') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="text-left transition-colors duration-200">
+          Search
+        </button>
+        <button 
+          (click)="navigateToFavorites()"
+          [class]="isActiveRoute('/favorites') ? 'text-primary-600 font-medium' : 'text-gray-700 hover:text-primary-600'"
+          class="flex items-center space-x-1 text-left transition-colors duration-200">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+            <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+          </svg>
+          <span>Favorites</span>
+          <span class="bg-primary-500 text-white text-xs px-2 py-1 rounded-full">
+            {{ favoriteCount$ | async }}
+          </span>
+        </button>
+      </div>
+    </div>
+  </div>
+</nav>

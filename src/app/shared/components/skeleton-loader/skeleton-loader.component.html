@@ -1,0 +1,34 @@
+<ng-container *ngFor="let i of [].constructor(count); trackBy: trackByIndex">
+  <!-- Recipe Card Skeleton -->
+  <div *ngIf="type === 'recipe'" class="skeleton-recipe-card">
+    <div class="skeleton-image"></div>
+    <div class="skeleton-content">
+      <div class="skeleton-title"></div>
+      <div class="skeleton-meta">
+        <div class="skeleton-text"></div>
+        <div class="skeleton-text"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Card Skeleton -->
+  <div *ngIf="type === 'card'" class="skeleton-card">
+    <div class="skeleton-avatar"></div>
+    <div class="skeleton-details">
+      <div class="skeleton-text"></div>
+      <div class="skeleton-text small"></div>
+    </div>
+  </div>
+
+  <!-- Text Skeleton -->
+  <div *ngIf="type === 'text'" class="skeleton-text" 
+       [style.width]="width || '100%'" 
+       [style.height]="height || '1rem'">
+  </div>
+
+  <!-- Avatar Skeleton -->
+  <div *ngIf="type === 'avatar'" class="skeleton-avatar"
+       [style.width]="width || '40px'" 
+       [style.height]="height || '40px'">
+  </div>
+</ng-container>

@@ -1,0 +1,219 @@
+<div class="min-h-screen bg-gray-50">
+  <!-- Loading State -->
+  <div *ngIf="isLoading" class="animate-pulse">
+    <div class="h-64 bg-gray-200"></div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-gray-200 h-8 rounded w-3/4 mb-4"></div>
+      <div class="bg-gray-200 h-4 rounded w-1/2 mb-8"></div>
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div class="lg:col-span-2 space-y-6">
+          <div class="bg-gray-200 h-32 rounded"></div>
+          <div class="bg-gray-200 h-48 rounded"></div>
+        </div>
+        <div class="space-y-4">
+          <div class="bg-gray-200 h-24 rounded"></div>
+          <div class="bg-gray-200 h-32 rounded"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div *ngIf="error && !isLoading" class="text-center py-16">
+    <div class="w-24 h-24 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-6">
+      <svg class="w-12 h-12 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+      </svg>
+    </div>
+    <h3 class="text-xl font-semibold text-gray-900 mb-2">Recipe Not Found</h3>
+    <p class="text-gray-600 mb-6">The recipe you're looking for doesn't exist or has been removed.</p>
+    <button (click)="goBack()" class="btn-primary">Go Back to Search</button>
+  </div>
+
+  <!-- Recipe Details -->
+  <div *ngIf="recipe && !isLoading && !error">
+    <!-- Hero Image Banner -->
+    <section class="relative h-64 md:h-96 overflow-hidden">
+      <img 
+        [src]="recipe!.image" 
+        [alt]="recipe!.name"
+        class="w-full h-full object-cover"
+        (error)="$event.target.src='https://via.placeholder.com/1200x400/e5e7eb/6b7280?text=Recipe+Image'">
+      
+      <!-- Gradient Overlay -->
+      <div class="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent"></div>
+      
+      <!-- Back Button & Actions -->
+      <div class="absolute top-4 left-4 right-4 flex justify-between items-start">
+        <button 
+          (click)="goBack()"
+          class="bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-md hover:bg-white transition-colors">
+          <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+          </svg>
+        </button>
+        
+        <div class="flex space-x-2">
+          <button 
+            (click)="shareRecipe()"
+            class="bg-white/90 backdrop-blur-sm p-2 rounded-lg shadow-md hover:bg-white transition-colors">
+            <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026a9.001 9.001 0 01-7.432 0m9.032-4.026A9.001 9.001 0 0112 3c-4.474 0-8.268 3.12-9.032 7.326m0 0A9.001 9.001 0 0012 21c4.474 0 8.268-3.12 9.032-7.326"/>
+            </svg>
+          </button>
+        </div>
+      </div>
+      
+      <!-- Content Overlay -->
+      <div class="absolute bottom-0 left-0 right-0 p-8">
+        <div class="max-w-7xl mx-auto">
+          <div class="flex items-center space-x-2 mb-4">
+            <span class="px-3 py-1 bg-white/20 backdrop-blur-sm rounded-full text-white text-sm font-semibold">
+              AJ Verse
+            </span>
+            <span class="px-3 py-1 bg-primary-500/80 backdrop-blur-sm rounded-full text-white text-sm">
+              {{ recipe.category }}
+            </span>
+          </div>
+          <h1 class="text-3xl md:text-4xl lg:text-5xl font-bold text-white mb-4">
+            {{ recipe.name }}
+          </h1>
+          <div class="flex items-center space-x-6 text-white/90">
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+              </svg>
+              <span>{{ recipe.area }}</span>
+            </div>
+            <div class="flex items-center space-x-2">
+              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2"/>
+              </svg>
+              <span>{{ recipe.ingredients.length || 0 }} ingredients</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <!-- Left Column - Instructions & Video -->
+        <div class="lg:col-span-2 space-y-8">
+          <!-- Ingredients Section -->
+          <section class="bg-white rounded-xl shadow-sm p-6">
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-2xl font-bold text-gray-900">Ingredients</h2>
+              <span class="text-sm text-gray-500">{{ recipe.ingredients.length || 0 }} items</span>
+            </div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+              <div *ngFor="let ingredient of recipe.ingredients; let i = index" 
+                   class="flex items-center space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                <span class="flex-shrink-0 w-8 h-8 bg-primary-100 text-primary-600 rounded-full flex items-center justify-center text-sm font-medium">
+                  {{ i + 1 }}
+                </span>
+                <div>
+                  <span class="font-medium text-gray-900">{{ ingredient.name }}</span>
+                  <span class="text-gray-600 ml-2">{{ ingredient.measure }}</span>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <!-- Instructions Section -->
+          <section class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Instructions</h2>
+            
+            <div class="space-y-4">
+              <div *ngFor="let step of formatInstructions(); let i = index" 
+                   class="flex space-x-4">
+                <span class="flex-shrink-0 w-8 h-8 bg-primary-500 text-white rounded-full flex items-center justify-center text-sm font-bold">
+                  {{ i + 1 }}
+                </span>
+                <p class="text-gray-700 leading-relaxed">{{ step }}.</p>
+              </div>
+            </div>
+          </section>
+
+          <!-- Video Section -->
+          <section *ngIf="getYoutubeEmbedUrl()" class="bg-white rounded-xl shadow-sm p-6">
+            <h2 class="text-2xl font-bold text-gray-900 mb-6">Video Tutorial</h2>
+            <div class="aspect-w-16 aspect-h-9">
+              <iframe 
+                [src]="getYoutubeEmbedUrl()"
+                frameborder="0" 
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                allowfullscreen
+                class="w-full h-full rounded-lg">
+              </iframe>
+            </div>
+          </section>
+        </div>
+
+        <!-- Right Column - Actions & Info -->
+        <div class="space-y-6">
+          <!-- Favorite Card -->
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <button 
+              (click)="toggleFavorite()"
+              class="w-full flex items-center justify-center space-x-2 p-4 rounded-lg transition-colors"
+              [class]="isFavorite() ? 'bg-red-50 hover:bg-red-100 text-red-600' : 'bg-primary-50 hover:bg-primary-100 text-primary-600'">
+              <svg class="w-6 h-6" [class]="isFavorite() ? 'fill-current' : ''" fill="currentColor" viewBox="0 0 20 20">
+                <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd"/>
+              </svg>
+              <span class="font-semibold">{{ isFavorite() ? 'Remove from Favorites' : 'Add to Favorites' }}</span>
+            </button>
+          </div>
+
+          <!-- Recipe Info Card -->
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Recipe Details</h3>
+            <div class="space-y-3">
+              <div class="flex justify-between">
+                <span class="text-gray-600">Category</span>
+                <span class="font-medium text-gray-900">{{ recipe.category }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Cuisine</span>
+                <span class="font-medium text-gray-900">{{ recipe.area }}</span>
+              </div>
+              <div class="flex justify-between">
+                <span class="text-gray-600">Ingredients</span>
+                <span class="font-medium text-gray-900">{{ recipe.ingredients.length || 0 }}</span>
+              </div>
+              <div *ngIf="recipe.tags" class="flex justify-between">
+                <span class="text-gray-600">Tags</span>
+                <span class="font-medium text-gray-900">{{ recipe.tags }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Quick Actions -->
+          <div class="bg-white rounded-xl shadow-sm p-6">
+            <h3 class="text-lg font-semibold text-gray-900 mb-4">Quick Actions</h3>
+            <div class="space-y-3">
+              <button 
+                (click)="shareRecipe()"
+                class="w-full flex items-center justify-center space-x-2 p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m9.032 4.026a9.001 9.001 0 01-7.432 0m9.032-4.026A9.001 9.001 0 0112 3c-4.474 0-8.268 3.12-9.032 7.326m0 0A9.001 9.001 0 0012 21c4.474 0 8.268-3.12 9.032-7.326"/>
+                </svg>
+                <span class="text-gray-700">Share Recipe</span>
+              </button>
+              <button 
+                (click)="printRecipe()"
+                class="w-full flex items-center justify-center space-x-2 p-3 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors">
+                <svg class="w-5 h-5 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"/>
+                </svg>
+                <span class="text-gray-700">Print Recipe</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

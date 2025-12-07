@@ -1,0 +1,13 @@
+.aspect-w-16 {
+  position: relative;
+  padding-bottom: calc(9 / 16 * 100%);
+  line-clamp: 2; /* Standard property for compatibility */
+}
+
+.aspect-h-12 {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+}
