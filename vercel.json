@@ -1,1 +1,1 @@
-{"version": 2,"installCommand": "npm install","buildCommand": "npm run build","outputDirectory": "dist/recipe-browser/browser","framework": "none","routes": [{"src": "/(.*)","dest": "/index.html"}]}
+{"version": 2,"buildCommand": "npm run build","outputDirectory": "dist/recipe-browser","routes": [{"src": "/(.*)","dest": "/index.html"}]}
