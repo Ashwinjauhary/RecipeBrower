@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { CommonModule } from '@angular/common';
+import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { Recipe } from '../../core/models';
 import { RecipeService, FavoritesService } from '../../core/services';
 
@@ -22,7 +23,8 @@ export class DetailsComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private recipeService: RecipeService,
-    private favoritesService: FavoritesService
+    private favoritesService: FavoritesService,
+    private sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
@@ -77,12 +79,15 @@ export class DetailsComponent implements OnInit {
     }
   }
 
-  getYoutubeEmbedUrl(): string | null {
+  getYoutubeEmbedUrl(): SafeResourceUrl | null {
     if (!this.recipe?.youtube) return null;
     
     const url = this.recipe.youtube;
     const videoId = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&\n?#]+)/);
-    return videoId ? `https://www.youtube.com/embed/${videoId[1]}` : null;
+    if (!videoId) return null;
+    
+    const embedUrl = `https://www.youtube.com/embed/${videoId[1]}`;
+    return this.sanitizer.bypassSecurityTrustResourceUrl(embedUrl);
   }
 
   formatInstructions(): string[] {
